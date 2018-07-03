@@ -2,9 +2,10 @@ require 'rails_helper'
 
 RSpec.describe PortfoliosController, type: :controller do
 
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
-  }
+  let(:valid_attributes) { {title: 'Portfolio title',
+                            subtitle: 'Portfolio subtitle',
+                            body: 'Lorem ipsum de turr'}
+                          }
 
   let(:invalid_attributes) {
     skip("Add a hash of attributes invalid for your model")
@@ -29,12 +30,36 @@ RSpec.describe PortfoliosController, type: :controller do
     end
   end
 
+  describe "GET #edit" do
+    it "returns a success response" do
+      portfolio_item = Portfolio.create! valid_attributes
+      get :edit, params: {id: portfolio_item.to_param}, session: valid_session
+      expect(response).to be_success
+    end
+  end
+
   describe "POST #create" do
     context "with valid params" do
       it "creates a new Portfolio" do
         expect {
           post :create, params: {portfolio: valid_attributes}, session: valid_session
         }.to change(Portfolio, :count).by(1)
+      end
+    end
+  end
+
+  describe "PUT #update" do
+    context "with valid params" do
+      let(:new_attributes) { {title: 'updated Portfolio title',
+                              subtitle: 'updated Portfolio subtitle',
+                              body: 'Lorem ipsum de turr'}
+      }
+
+      it "updates the requested portfolio" do
+        portfolio = Portfolio.create! valid_attributes
+        put :update, params: {id: portfolio.to_param, portfolio: new_attributes}, session: valid_session
+        portfolio.reload
+        expect(portfolio.title).to eq('updated Portfolio title')
       end
     end
   end
