@@ -50,17 +50,25 @@ RSpec.describe PortfoliosController, type: :controller do
 
   describe "PUT #update" do
     context "with valid params" do
-      let(:new_attributes) { {title: 'updated Portfolio title',
-                              subtitle: 'updated Portfolio subtitle',
-                              body: 'Lorem ipsum de turr'}
-      }
-
+      let(:new_attributes) {
+              { title:    'updated Portfolio title',
+                subtitle: 'updated Portfolio subtitle',
+                body:     'Lorem ipsum de turr' }
+              }
       it "updates the requested portfolio" do
         portfolio = Portfolio.create! valid_attributes
         put :update, params: {id: portfolio.to_param, portfolio: new_attributes}, session: valid_session
         portfolio.reload
         expect(portfolio.title).to eq('updated Portfolio title')
       end
+    end
+  end
+
+  describe "GET #show" do
+    it "returns a success response" do
+      portfolio = Portfolio.create! valid_attributes
+      get :show, params: {id: portfolio.to_param}, session: valid_session
+      expect(response).to be_success
     end
   end
 end
