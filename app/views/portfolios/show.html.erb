@@ -1,6 +1,8 @@
 <h1>Show</h1>
-
-<%#= unless !(@portfolio_item.image.present?) %>
+<p>
+  <%= link_to "Portfolio's List", portfolios_path %>
+</p>
+<%= image_tag @portfolio_item.main_image %>
 <h3><%= @portfolio_item.title %></h3>
 <em><%= @portfolio_item.subtitle %></em>
 <p><%= @portfolio_item.body %></p>

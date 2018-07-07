@@ -71,4 +71,14 @@ RSpec.describe PortfoliosController, type: :controller do
       expect(response).to be_success
     end
   end
+
+  describe "DELETE #destroy" do
+    it "destroys the requested blog" do
+      portfolio = Portfolio.create! valid_attributes
+      expect {
+        delete :destroy, params: {id: portfolio.to_param}, session: valid_session
+      }.to change(Portfolio, :count).by(-1)
+    end
+  end
+
 end
