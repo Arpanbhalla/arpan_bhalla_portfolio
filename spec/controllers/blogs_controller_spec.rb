@@ -28,8 +28,8 @@ RSpec.describe BlogsController, type: :controller do
   # This should return the minimal set of attributes required to create a valid
   # Blog. As you add validations to Blog, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+  let(:valid_attributes) { {title: 'Blog title',
+                            body: 'Lorem ipsum de turr blog'}
   }
 
   let(:invalid_attributes) {
@@ -138,4 +138,27 @@ RSpec.describe BlogsController, type: :controller do
     end
   end
 
+  describe "DELETE #destroy" do
+    it "destroys the requested blog" do
+      blog = Blog.create! valid_attributes
+      expect {
+        delete :destroy, params: {id: blog.to_param}, session: valid_session
+      }.to change(Blog, :count).by(-1)
+    end
+
+    it "redirects to the blogs list" do
+      blog = Blog.create! valid_attributes
+      delete :destroy, params: {id: blog.to_param}, session: valid_session
+      expect(response).to redirect_to(blogs_url)
+    end
+  end
+
+  # describe "POST #toggle_status" do
+  #   it "toggles the status of blog" do
+  #     blog = Blog.create! valid_attributes
+  #     expect {
+  #       post :toggle_status, params: {id: blog.to_param}, session: valid_session
+  #     }.(Blog, :status).to eq(0)
+  #   end
+  end
 end
