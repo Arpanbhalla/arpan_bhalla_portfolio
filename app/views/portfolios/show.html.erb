@@ -4,5 +4,17 @@
 </p>
 <%= image_tag @portfolio_item.main_image %>
 <h3><%= @portfolio_item.title %></h3>
+<h3>Subtitle</h3>
 <em><%= @portfolio_item.subtitle %></em>
+<h3>Body</h3>
 <p><%= @portfolio_item.body %></p>
+<% unless !(@portfolio_item.technologies.present?)  %>
+<h3>Technologies</h3>
+  <p>
+    <% @portfolio_item.technologies.each do |technology_item| %>
+    <li>
+      <%= technology_item.name %>
+    </li>
+    <% end %>
+  </p>
+<% end %>
